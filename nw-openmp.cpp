@@ -52,7 +52,7 @@ void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_char
   }
   for (int i = 1; i < x_size; i++) {
     for (int j = 1; j < y_size; j++) {
-      if (x_chars[i-1] == y_chars[j-1]) {
+      if (x_chars[i] == y_chars[j]) {
         grid[i][j] = grid[i-1][j-1] + MATCH;
       } else {
         grid[i][j] = grid[i-1][j-1] + MISMATCH;
