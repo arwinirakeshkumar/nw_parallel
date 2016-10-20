@@ -1,0 +1,41 @@
+For the analysis, the input string are assumed to be of the same length, and divisible by the tile size $T_{size}$, this means that relative to the definitions in Figure \ref{fig2}, that $T_x^2 = T_y^2 = T$, and that $T_x \% T_{size} = 0$, where $\%$ is the modulo operator. The amount of processors is here denoted $p$, thus for the first $p$ diagonal strips we will have the following procssor usage
+$$
+\frac{\sum_{i=1}^p i}{p^2} = \frac{p+1}{2p}
+$$
+This is going to be happening twice, once when the strips are increasing in size, and once at the end where they are decreasing.Which means that there will be a total processor usage at the corners of
+$$
+\frac{p+1}{2p}
+$$
+For the middle part all processors will be active, to understand how big this part is compared to the beginning and end, the amount of tiles in this part is calculated to
+$$
+  T - p(p+1).
+$$
+In these tiles the processor usage will be maximized, which means that the total processor usage will be
+$$
+\frac{T - p(p+1) + p(p+1)\frac{p+1}{2p}}{T}
+$$
+The processor usage will be directly related to the speedup, which will be
+$$
+p \left(\frac{T - p(p+1) + p(p+1)\frac{p+1}{2p}}{T}\right) = \frac{p - p^3}{2T} + p
+$$
+This will only hold if there is a middle part, which is in cases where $T - p(p+1) \leq 0$, for values appropriate the speedup can be calculated for different values which is shown in Table \ref{tab1}.
+\begin{table}[H]
+  \center
+  \begin{tabular}{|c||c|c|c|c|}
+  \hline
+          & \multicolumn{4}{c|}{Processors ($p$)}\\
+  \hline
+     T    & 4    & 8     & 16    & 32\\
+  \hline
+     64   & 3.53 & 4.06  & -     & - \\
+  \hline
+     256  & 3.88 & 7.02  & 8.03  & - \\
+  \hline
+     1024 & 3.97 & 7.75  & 14.01 & 16.02 \\
+  \hline
+     4096 & 3.99 & 7.94  & 15.50 & 28.00\\
+  \hline
+  \end{tabular}
+  \caption{Speedup relative to amount of tiles $T$ and processors $p$.}
+  \label{tab1}
+\end{table}

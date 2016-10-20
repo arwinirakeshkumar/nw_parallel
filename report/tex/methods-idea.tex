@@ -18,4 +18,4 @@ Every tile will be responsible for computing three things, its southern edge, ea
   \caption{The input and output of the tiling structure. Each tile here will populate their western and northern edges using their input arrays and input corner, their output will be their eastern and southern edges and their south-eastern corner.}
   \label{fig1}
 \end{figure}
-The way this is structured ensures there is only a memory usage of $P\cdot T_{size}^2$, where $P$ is the amount of processors, and $T_{size}$ is the length of a tiles size, which is important in dealing with large inputs, as the entire solution matrix is never in memory at the same time. The also implies that the solution to reach the best alignment, is lost, only the final score is reported.
+The way this is structured ensures there is only a memory usage of $p\cdot T_{size}^2$, where $p$ is the amount of processors, and $T_{size}$ is the length of a tiles side, which is important in dealing with large inputs, as the entire solution matrix is never in memory at the same time. The also implies that the solution to reach the best alignment, is lost, only the final score is reported.
