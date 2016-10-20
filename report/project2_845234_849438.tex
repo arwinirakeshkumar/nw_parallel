@@ -1,0 +1,37 @@
+\documentclass[11pt]{article}
+\usepackage{colacl}
+\usepackage{listings}
+\usepackage{graphicx}
+\sloppy
+\title{Project 1: Misspelled Location Names}
+\author
+{849438 - Matthieu Bergeron\\845234 - Tobias H. Petersen}
+\begin{document}
+\maketitle
+\section{Introduction}
+\input{./tex/introduction.tex}
+\section{Methods}
+Although two different parallel programming APIs are used in this report, the method used to solve the problem is the same. This method will be explained and analysed to determine its theoretical effectiveness.
+\subsection{Idea}
+\input{./tex/methods-idea.tex}
+\subsection{Analysis}
+\input{./tex/methods-analysis.tex}
+\section{Implementation}
+In this section, the implementation specifics of the OpenMP and MPI soloution is explained. The main focus of this is to explain the difference in the two.
+\subsection{OpenMP}
+\input{./tex/implementation-openmp.tex}
+\subsection{MPI}
+\input{./tex/implementation-mpi.tex}
+\section{Results}
+The two implementations along with the sequential implementation will be tested with varying parameters, these parameters will first be explained, followed by the actual results.
+\subsection{Methods}
+\input{./tex/results-methods.tex}
+\subsection{Benchmarks}
+\input{./tex/results-benchmarks.tex}
+\section{Discussion}
+There are two main focuses of this section, the first being how well our implementation compares to the theoretical analysis. The second being a comparison of the two different APIs, and what could have affected the difference.
+\subsection{Comparison to Analysis}
+\input{./tex/discussion-comparison.tex}
+\subsection{OpenMP vs. MPI}
+\input{./tex/discussion-versus.tex}
+\end{document}

@@ -1,0 +1,16 @@
+matthieu
+  NOT DONE:
+    ./tex/implementation-mpi.tex
+    ./tex/discussion-comparison.tex
+    ./tex/discussion-versus.tex
+    ./tex/results-methods.tex
+    ./tex/results-benchmarks.tex
+  DOING:
+
+tobias
+  NOT DONE:
+    ./tex/methods-idea.tex
+    ./tex/methods-analysis.tex
+    ./tex/implementation-openmp.tex
+  DOING:
+    ./tex/introduction.tex
