@@ -1,6 +1,7 @@
 #include <iostream>
 #include <mpi.h>
 #include <string.h>
+#include <stdlib.h>
 #include <fstream>
 #include <cmath>
 #include <sys/types.h>
@@ -15,7 +16,7 @@ using namespace std;
 #define FINISHED_TAG 2
 #define INDEL -1
 
-#define MAXSIZE 200000
+#define MAXSIZE 32768
 
 
 void master_send_work(int worker_id,int corner, int x_vals[],int y_vals[],int tile_x,int tile_y){
@@ -56,13 +57,13 @@ void slave_job_done(int corner,int low[],int right[],int tile_x,int tile_y){
     MPI_Send(low, TILESIZE, MPI_INT, MASTER, 0, MPI_COMM_WORLD);
 }
 
-void master_recv_work(int corners[MAXSIZE/TILESIZE][MAXSIZE/TILESIZE],int x_vals[],int y_vals[], int slave_id){
+void master_recv_work(int *corners,int x_vals[],int y_vals[], int slave_id){
     MPI_Status status;
     int tile_x = 0,tile_y = 0;
 
     MPI_Recv(&tile_x, 1, MPI_INT, slave_id, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
     MPI_Recv(&tile_y, 1, MPI_INT, slave_id, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
-    MPI_Recv(&corners[tile_x+1][tile_y+1], 1, MPI_INT, slave_id, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
+    MPI_Recv(&corners[(tile_x+1)*MAXSIZE/TILESIZE + (tile_y+1)], 1, MPI_INT, slave_id, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
     MPI_Recv(x_vals + tile_x*TILESIZE, TILESIZE, MPI_INT, slave_id, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
     MPI_Recv(y_vals + tile_y*TILESIZE, TILESIZE, MPI_INT, slave_id, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 
@@ -96,7 +97,12 @@ int main() {
 
         int x_vals[MAXSIZE];
         int y_vals[MAXSIZE];
-        int corners[MAXSIZE/TILESIZE][MAXSIZE/TILESIZE];
+        int *corners = (int *) malloc(sizeof(int)*(MAXSIZE/TILESIZE)*(MAXSIZE*TILESIZE));
+
+        if(corners == NULL) {
+            printf("Not enough heap memory : malloc failed...\n");
+            return 1;
+        }
         for (int i = 0; i < MAXSIZE; i++) {
             x_vals[i] = (i + 1) * INDEL;
             y_vals[i] = x_vals[i];
@@ -123,14 +129,17 @@ int main() {
             MPI_Finalize();
             return 0;
         }
-        corners[1][1] = corner;
+        printf("0\n");
+        corners[1*MAXSIZE/TILESIZE + 1] = corner;
 
         // Initialisation of the corner values
+        printf("1\n");
         for (int i = 1; i <= nb_tiles_x; i++){
-            corners[i][0] = i * TILESIZE * INDEL;
+            corners[i*MAXSIZE/TILESIZE] = i * TILESIZE * INDEL;
         }
+        printf("2\n");
         for (int i = 1; i <= nb_tiles_y; i++){
-            corners[0][i] = i * TILESIZE * INDEL;
+            corners[0*MAXSIZE/TILESIZE + i] = i * TILESIZE * INDEL;
         }
 
         //Initialisation : sends the char array to all the slaves
@@ -168,7 +177,7 @@ int main() {
                 // Sends all the jobs
                 for (int l = 0;l < nb_slaves ;l++) {
                     master_send_work((k % nb_slaves) + 1,
-                                     corners[first_i - k - 1][first_j + k],
+                                     corners[(first_i - k - 1)*MAXSIZE/TILESIZE + (first_j + k)],
                                      x_vals,
                                      y_vals,
                                      first_i - k - 1,
