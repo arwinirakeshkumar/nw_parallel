@@ -11,10 +11,11 @@
 #define INDEL -1
 #define BLOCKSIZE 16
 #define MAXSIZE 1024
-#define TILESIZE 5
+#define TILESIZE 20
 
 
 void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_chars[], int x_size, int y_size, int *corner) {
+  /*
   printf("corner : %d\n", *corner);
 
   printf("x_vals :\n");
@@ -37,7 +38,8 @@ void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_char
     printf(" %c",y_chars[k]);
   }
   printf("\n");
-  int grid[TILESIZE][TILESIZE];
+   */
+  int grid[x_size][y_size];
   if (x_chars[0] == y_chars[0]) {
     grid[0][0] = *corner + MATCH;
   } else {
@@ -101,6 +103,7 @@ void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_char
   printf("\n");*/
     *corner = x_vals[x_size-1];
 
+  /*
   printf("Final grid :\n");
   for(int i = 0; i < x_size; i ++) {
     for (int j = 0; j < y_size; j++) {
@@ -108,4 +111,5 @@ void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_char
     }
     printf("\n");
   }
+   */
 }
