@@ -1,0 +1,6 @@
+The openMP version of the algorithm is clearly faster than the MPI one. \\ This is due to the low granularity of the MPI algorithm. Indeed, a large amount of data is send between processes during the algorithm :  \\
+- Every slave sends an array of $TILESIZE*sizeof(int)$ to the master process after computing its own tile.  \\
+- Since all these sendings can't occur at the same time, slaves processes can spend a lot of time waiting to send their results.\\ \\ \\
+However, the MPI algorithm can compete with the openMP one for very large numbers of CPUS. For longer sequences, it could be possible that the MPI algorithms runs faster than the openMP one; however we would have to use an extremely high number of processors (maybe more than 64 !) .\\
+
+To conclude, due to the low granularity of the problem it seems better to implement the Needleman-Wunsch algorithm with openMP.

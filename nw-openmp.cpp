@@ -4,6 +4,7 @@
 #include <string>
 #include <math.h>
 #include <algorithm>
+#include <omp.h>
 using namespace std;
 #define MATCH 1
 #define MISMATCH 0
@@ -15,14 +16,7 @@ using namespace std;
 #endif
 
 void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_chars[], int x_size, int y_size, int corner) {
-/*  printf("%d ", corner);
-  for (int i = 0; i < x_size; i++) {
-    printf("%d ", x_vals[i]);
-  }
-  printf("\n");
-  for (int i = 0; i < y_size; i++) {
-    printf("%d\n", y_vals[i]);
-  }*/
+
   int grid[TILESIZE][TILESIZE];
   if (x_chars[0] == y_chars[0]) {
     grid[0][0] = corner + MATCH;
@@ -70,21 +64,7 @@ void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_char
   for (int i = 0; i < y_size; i++) {
     y_vals[i] = grid[x_size-1][i];
   }
-/*  for (int j = 0; j < y_size; j++) {
-    for (int i = 0; i < x_size; i++) {
-      if (grid[i][j] < -9) {
-        printf(" %d", grid[i][j]);
-      } else if (grid[i][j] < 0) {
-        printf("  %d", grid[i][j]);
-      } else if (grid[i][j] < 10) {
-        printf("   %d", grid[i][j]);
-      } else {
-        printf("  %d", grid[i][j]);
-      }
-    }
-    printf("\n");
-  }
-  printf("\n");*/
+
 }
 size_t index( int x, int y, int m_width ){
   return x + m_width * y;

@@ -1,0 +1,8 @@
+
+In the benchmarks results above, we focus on two paramers : the tile size and the numbers of processors. \\
+For the openMP algorithm, we make use of one single node, and scale the numbers of processors from 2 to 16. \\
+The MPI algorithm is run with 2,4,8 or 16 nodes, depending on the numbers of processors required. \\
+All the results have been computed on the VLSCI Avoca server. It's important to note that our results have a lot of variance. During experimentations, we observed differents running time for the same parameters and inputs. The Avoca server can have performances that range from a scale of 1 to 10 (for instance : a program that runs in 0.7 seconds one day can run in 7s another day).\\
+In order to have an idea of the performances of our parallel implementations, we have run a sequential algorithm on the same benchmark. \textbf{The timing of the sequential algorithm is 9.8s}.
+\\
+The benchmark is composed of two random sequences of size $2^{15}$.
