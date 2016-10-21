@@ -1,0 +1,18 @@
+To compile the executables for the Needleman-Wunsch parallel implementation write:
+$ make
+
+This will create 9 files:
+
+nw-mpi-1024
+nw-mpi-128
+nw-mpi-256
+nw-mpi-512
+nw-openmp-1024
+nw-openmp-128
+nw-openmp-256
+nw-openmp-512
+nw-sequential
+
+Where the middle part is the API used, the latter part, being the T_x and T_y size of the tiles.
+
+These can be run, and take two lines in from STDIN and will produce the alignment score.
