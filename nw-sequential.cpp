@@ -8,11 +8,10 @@ using namespace std;
 #define MATCH 1
 #define MISMATCH 0
 #define INDEL -1
-#define MAXSIZE 70000
-#define CORES 4
 #ifndef TILESIZE
-#define TILESIZE 1024
+#define TILESIZE 64
 #endif
+#define MAXSIZE 66000
 
 void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_chars[], int x_size, int y_size, int corner) {
 /*  printf("%d ", corner);
@@ -86,9 +85,6 @@ void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_char
   }
   printf("\n");*/
 }
-size_t index( int x, int y, int m_width ){
-  return x + m_width * y;
-}
 
 int main(int argc, char *argv[]) {
   string xstr, ystr;
@@ -99,8 +95,11 @@ int main(int argc, char *argv[]) {
   const char* y_chars = ystr.c_str();
   int x_vals[MAXSIZE];
   int y_vals[MAXSIZE];
-  int T_x = MAXSIZE/TILESIZE;
-  int *corners = new int[T_x * T_x];
+  size_t T_x = MAXSIZE/TILESIZE;
+  int **corners = (int**) malloc(T_x * sizeof *corners + (T_x * (T_x * sizeof **corners)));
+  int *data = ((int*) corners) + T_x;
+  for(size_t i = 0; i < T_x; i++)
+    corners[i] = data + i * T_x;
   int tile_y, tile_x;
   for (int i = 0; i < MAXSIZE; i++) {
     x_vals[i] = (i + 1) * INDEL;
@@ -111,14 +110,14 @@ int main(int argc, char *argv[]) {
   if (x_size < TILESIZE) tile_x = x_size;
   if (y_size < TILESIZE) tile_y = y_size;
   nw_tile(x_vals, y_vals, x_chars, y_chars, tile_x, tile_y, 0);
-  corners[index(1,1,T_x)] = x_vals[TILESIZE-1];
+  corners[1][1] = x_vals[TILESIZE-1];
   int x_tiles = ((TILESIZE + x_size - 1) / TILESIZE) - 1;
   int y_tiles = ((TILESIZE + y_size - 1) / TILESIZE) - 1;
   for (int i = 1; i <= x_tiles; i++){
-    corners[index(i,0,T_x)] = i * TILESIZE * INDEL;
+    corners[i][0] = i * TILESIZE * INDEL;
   }
   for (int i = 1; i <= y_tiles; i++){
-    corners[index(0,i,T_x)] = i * TILESIZE * INDEL;
+    corners[0][i] = i * TILESIZE * INDEL;
   }
   int x_offset, y_offset;
   int max_i;
@@ -139,10 +138,9 @@ int main(int argc, char *argv[]) {
         x_offset = TILESIZE*j;
         y_offset = TILESIZE*(i-j);
         //printf("%d, %d\n", x_offset, y_offset);
-        nw_tile(&x_vals[x_offset], &y_vals[y_offset], &x_chars[x_offset], &y_chars[y_offset], edge_x, edge_y, corners[index(j,i-j,T_x)]);
+        nw_tile(&x_vals[x_offset], &y_vals[y_offset], &x_chars[x_offset], &y_chars[y_offset], edge_x, edge_y, corners[j][i-j]);
         break;
       }
-#pragma omp parallel for shared(x_vals, y_vals, x_chars, y_chars, corners, T_x)  private(x_offset, y_offset, tile_x, tile_y)
       for (int k = j; k <= max_i; k++) {
         x_offset = TILESIZE*k;
         y_offset = TILESIZE*(i-k);
@@ -150,12 +148,11 @@ int main(int argc, char *argv[]) {
         tile_y = TILESIZE;
         if (k == x_tiles) tile_x = edge_x;
         if (i-k == y_tiles) tile_y = edge_y;
-        nw_tile(&x_vals[x_offset], &y_vals[y_offset], &x_chars[x_offset], &y_chars[y_offset], tile_x, tile_y, corners[index(k,i-k,T_x)]);
-        corners[index(k+1,i-k+1, T_x)] = x_vals[x_offset + TILESIZE - 1];
+        nw_tile(&x_vals[x_offset], &y_vals[y_offset], &x_chars[x_offset], &y_chars[y_offset], tile_x, tile_y, corners[k][i-k]);
+        corners[k+1][i-k+1] = x_vals[x_offset + TILESIZE - 1];
       }
     }
   }
-  delete[] corners;
   /*for (int i = 0; i < x_size; i++) {
     printf("%d ", x_vals[i]);
   }

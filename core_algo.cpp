@@ -9,10 +9,9 @@
 #define MATCH 1
 #define MISMATCH -1
 #define INDEL -1
-#define BLOCKSIZE 16
-#define MAXSIZE 1024
+#ifndef TILESIZE
 #define TILESIZE 20
-
+#endif
 
 void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_chars[], int x_size, int y_size, int *corner) {
   /*

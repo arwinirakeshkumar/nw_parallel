@@ -8,8 +8,9 @@
 #include "core_algo.h"
 
 using namespace std;
-
+#ifndef TILESIZE
 #define TILESIZE 1000
+#endif
 #define MASTER 0
 #define FINISHED_TAG 2
 #define INDEL -1
