@@ -97,7 +97,9 @@ int main() {
 
         int x_vals[MAXSIZE];
         int y_vals[MAXSIZE];
-        int *corners = (int *) malloc(sizeof(int)*(MAXSIZE/TILESIZE)*(MAXSIZE*TILESIZE));
+        //int *corners = (int *) malloc(sizeof(int)*(MAXSIZE/TILESIZE)*(MAXSIZE*TILESIZE));
+        int T_x = MAXSIZE/TILESIZE;
+        int *corners = new int[T_x * T_x];
 
         if(corners == NULL) {
             printf("Not enough heap memory : malloc failed...\n");
@@ -129,15 +131,12 @@ int main() {
             MPI_Finalize();
             return 0;
         }
-        printf("0\n");
         corners[1*MAXSIZE/TILESIZE + 1] = corner;
 
         // Initialisation of the corner values
-        printf("1\n");
         for (int i = 1; i <= nb_tiles_x; i++){
             corners[i*MAXSIZE/TILESIZE] = i * TILESIZE * INDEL;
         }
-        printf("2\n");
         for (int i = 1; i <= nb_tiles_y; i++){
             corners[0*MAXSIZE/TILESIZE + i] = i * TILESIZE * INDEL;
         }

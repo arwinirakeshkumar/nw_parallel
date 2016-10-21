@@ -1,0 +1,54 @@
+T denotes the size of one side of a tile.
+\subsection{OpenMP}
+Running times : \\ \\
+\begin{center}\begin{tabular}{|l||l|l|l|l|}
+\hline
+	& \multicolumn{4}{c|}{Processors ($p$)} \\
+\hline
+	T & 2 & 4 & 8 & 16\\
+\hline
+	128 & 5,6s & 2,85s & 1,74s & \textbf{1,2s}\\
+\hline
+	256 & 5,7s & 2,885s & 1,69s & 1,28s\\
+\hline
+	512 & 5,63s & 3,277s & 1,76s & 1,36s\\
+\hline
+	1024 & 5,72s & 3s & 1,99s & 1,55s\\
+\hline
+\end{tabular}\end{center}
+\newpage
+Here is the results in terms of speed-up in order to compare with the analysis : \\ \\
+\begin{center}\begin{tabular}{|l||l|l|l|l|}
+\hline
+	& \multicolumn{4}{c|}{Processors ($p$)} \\
+\hline
+	T & 2 & 4 & 8 & 16\\
+\hline
+	128 & 1,75 & 3,43 &  5,63 &\textbf{8,16}\\
+\hline
+	256 & 1,71 & 3,37 & 5,8 & 7,65\\
+\hline
+	512 & 1,74 & 2,98 & 5,56 & 7.2\\
+\hline
+	1024 & 1,71 & 3,26 & 4,92 & 6,32\\
+\hline
+\end{tabular}
+\end{center}
+\subsection{MPI}
+Running times : \\ \\
+\begin{center}\begin{tabular}{|l||l|l|l|l|l|l|l|l|}
+\hline
+	& \multicolumn{4}{c|}{Processors ($p$)}\\
+\hline
+	T & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 256\\
+\hline
+	128 & 1m13s & 29,4s & 15,35s & 8,16s & 6s & 5,66s & 5,11s & 5,6s\\
+\hline
+	256 & 1m10s & 26s & 44 & 13,85s & 7,04s & \textbf{5s} & 5,33s & 5,46s\\
+\hline
+	512 & 1m08s & 25,8s & 54 & 13,73s & 7,2s & 6,29s & 6,18s & 6,19s\\
+\hline
+	1024 & 1m08s & 26,4s & 64 & 14,6 & 8,1s & 8,13s & 8,08s & 8,15s\\
+\hline
+\end{tabular}
+\end{center}
