@@ -7,5 +7,5 @@ make: nw-openmp.cpp
 	mpic++ -O2 -DTILESIZE=256  core_algo.cpp nw-mpi.cpp -o nw-mpi-256
 	mpic++ -O2 -DTILESIZE=512  core_algo.cpp nw-mpi.cpp -o nw-mpi-512
 	mpic++ -O2 -DTILESIZE=1024 core_algo.cpp nw-mpi.cpp -o nw-mpi-1024
-	g++ -O2 -DTILESIZE=1024 nw-sequential.cpp -o nw-sequential
+	g++ -O2 -DTILESIZE=256 nw-sequential.cpp -o nw-sequential
 
