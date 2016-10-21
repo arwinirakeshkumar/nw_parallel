@@ -9,7 +9,7 @@ using namespace std;
 #define MISMATCH 0
 #define INDEL -1
 #define TILESIZE 64
-#define MAXSIZE 10240
+#define MAXSIZE 70000
 #define CORES 4
 
 void nw_tile(int x_vals[], int y_vals[], const char x_chars[], const char y_chars[], int x_size, int y_size, int corner) {
