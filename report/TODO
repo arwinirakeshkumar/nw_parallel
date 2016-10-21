@@ -10,8 +10,8 @@ matthieu
 tobias
   NOT DONE:
   DOING:
-    ./tex/implementation-openmp.tex
   DONE:
+    ./tex/implementation-openmp.tex
     ./tex/methods-analysis.tex
     ./tex/needleman-wunsch.tex
     ./tex/methods-idea.tex

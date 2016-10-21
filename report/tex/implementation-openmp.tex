@@ -1,0 +1,7 @@
+The implementation was somewhat straightforward with OpenMP, implementing it the way that was described in the method section, the only thing left to do was parallelizing the strips, as all tiles in each strip can be calculated concurrently.
+
+The code was written such that the loop iterating over the strips is for-loop, which is ideal for OpenMP, as the line
+\begin{lstlisting}
+#pragma omp parallel for
+\end{lstlisting}
+Will enable the iterations of a for loop to run concurrently. And as there is no inter-data dependency within each strip, this is the preferred implementation. The only thing to keep in mind is the variables which should be shared, and which should be private.
